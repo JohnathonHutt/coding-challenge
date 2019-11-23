@@ -22,7 +22,8 @@ mongoose.connect("mongodb://localhost:27017/refLinksDB", {
 
 //define mongoose Schema
 const refLinkSchema = {
-  prop: value,
+  name: String,
+  clicNum: Number
 };
 
 const RefLink = mongoose.model("RefLink", refLinkSchema);

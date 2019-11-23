@@ -1,0 +1,9 @@
+
+#server files
+
+/server/node_modules/server/npm-debug.log/server/.DS_Store/server/*.env
+
+
+#client files
+
+/client/node_modules/client/npm-debug.log/client/.DS_Store/client/*.env
