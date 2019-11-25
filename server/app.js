@@ -36,6 +36,11 @@ const refLinkSchema = {
 const RefLink = mongoose.model("RefLink", refLinkSchema);
 
 
+//Test route
+app.get("/", function(req, res) {
+    res.send("Server is up and running");
+});
+
 //route for all refLinks
 app.route("/reflinks")
   //Read route - gets all db entries
