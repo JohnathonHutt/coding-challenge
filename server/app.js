@@ -2,6 +2,7 @@
 
 //app dependencies
 const express = require("express");
+const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require ("mongoose");
 
@@ -14,6 +15,13 @@ const app = express();
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
+
+//configure server to only accept requests from frontend site
+const corsOptions = {
+  origin: 'the-domain-name'
+};
+//once domain name is obtained pass corsOptions into each cors() call -- cors(corsOptions)
 
 
 const port = process.env.PORT || 5000;
@@ -44,7 +52,7 @@ app.get("/", function(req, res) {
 //route for all refLinks
 app.route("/reflinks")
   //Read route - gets all db entries
-  .get(function(req, res) {
+  .get(cors(), function(req, res) {
     RefLink.find(function(err, foundRefLinks) {
       if (!err) {
         res.send(foundRefLinks);
@@ -54,7 +62,7 @@ app.route("/reflinks")
     });
   })
   //Create route - add new db entry
-  .post(function(req, res) {
+  .post(cors(), function(req, res) {
     console.log(req.body.name);
     console.log(req.body.clickNum);
     const newRefLink = new RefLink({
@@ -70,7 +78,7 @@ app.route("/reflinks")
     });
   })
   //delete all entries
-  .delete(function(req, res) {
+  .delete(cors(), function(req, res) {
     RefLink.deleteMany(function(err) {
       if (!err) {
         res.send("Successfully deleted all entries.");
@@ -95,7 +103,7 @@ app.route("/reflinks")
       });
     })
     //Find link by name - update with provided information
-    .patch(function(req, res){
+    .patch(cors(), function(req, res){
       RefLink.update(
         //conditions
         {name: req.params.refLinkName},
@@ -111,7 +119,7 @@ app.route("/reflinks")
       );
     })
     //Find link by name - delete specific entry
-    .delete(function(req, res){
+    .delete(cors(), function(req, res){
       RefLink.deleteOne(
         //conditions
         {title: req.params.refLinkName},
