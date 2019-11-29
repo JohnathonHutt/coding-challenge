@@ -9,7 +9,7 @@ class App extends React.Component {
     this.state = {
       referralLinks: [],
       renderHome: true,
-      currentName: "",
+      currentName: "Bob",
       term: "",
       // order: clientsList.length
     };
@@ -38,18 +38,20 @@ class App extends React.Component {
   }
 
   onSubmit(event) {
+    //Add new link - update db - sync w/ this.state
     event.preventDefault();
     //if name is not an empty string
     if (this.state.term) {
       //check if name is already taken
-      let newName = true;
+      let isUnique = true;
       this.state.referralLinks.forEach((link) => {
         if (link.name === this.state.term) {
-          newName = false;
+          isUnique = false;
         }
       });
       //if name is unique
-      if (newName) {
+      if (isUnique) {
+        //post new link to database - default clickNum: 0
         let linkName = {name: this.state.term};
         fetch("https://ambserver.herokuapp.com/reflinks", {
           method: 'POST',
@@ -58,12 +60,8 @@ class App extends React.Component {
         })
         .then(data => {
           console.log('Request success: ', data);
+          return fetch("https://ambserver.herokuapp.com/reflinks");
         })
-        .catch(error => {
-          console.log('Request failure: ', error);
-        });
-      }
-      fetch("https://ambserver.herokuapp.com/reflinks")
         .then(response => response.json())
         .then(data => {
           const list = [];
@@ -74,23 +72,14 @@ class App extends React.Component {
           this.setState({
             referralLinks: list
           });
-      });
-      //chain get request to update
+        })
+        .catch(error => {
+          console.log('Request failure: ', error);
+        });
+      }
     }
-  }
-
-  syncWDataBase() {
-    fetch("https://ambserver.herokuapp.com/reflinks")
-      .then(response => response.json())
-      .then(data => {
-        const list = [];
-        data.forEach((d) => {
-          list.push({name: d.name, clickNum: d.clickNum, id: d._id});
-        });
-        console.log(list);
-        this.setState({
-          referralLinks: list
-        });
+    this.setState({
+      term: ""
     });
   }
 
@@ -98,22 +87,85 @@ class App extends React.Component {
    this.setState({term: event.target.value});
   }
 
-  handleLinkClick(id) {
+  handleLinkClick(name) {
+    //the link click is reloading the page/hence the issue...
+    //need to use react-router-dom
+
     //update clicks count
-
+    //make server call
+    //redirect to landing page via this.state.renderHome and pass value via this.state.currName
+    // this.setState({
+    //   renderHome: false
+    // });
     //possibly refactor all onClicks through an onClick handler w/ helper methods
-    console.log("handle link click: " + id);
+    console.log("value of name is: " + name);
+    console.log("renderHome is: " + this.state.renderHome);
   }
 
-  editListItem(id) {
+  editListItem(name) {
     //add edit feature
-    console.log("edit: " + id);
+    //new information
+    let newName = "Gwen Stacey";
+    let newClickNum = 1000;
+    let newBody = {
+      name: newName,
+      clickNum: newClickNum
+    };
+    //edit database and repopulate data
+    let nameUri = encodeURI(name);
+    fetch("https://ambserver.herokuapp.com/reflinks/" + nameUri, {
+      method: 'PATCH',
+      body: JSON.stringify(newBody),
+      headers: {'Content-type': 'application/json'}
+    })
+    .then(data => {
+      console.log('Request success: ', data);
+      return fetch("https://ambserver.herokuapp.com/reflinks");
+    })
+    .then(response => response.json())
+    .then(data => {
+      const list = [];
+      data.forEach((d) => {
+        list.push({name: d.name, clickNum: d.clickNum, id: d._id});
+      });
+      console.log(list);
+      this.setState({
+        referralLinks: list
+      });
+    })
+    .catch(error => {
+      console.log('Request failure: ', error);
+    });
   }
 
-  deleteListItem(id) {
+  deleteListItem(name) {
     //delete item
-    console.log("delete list item: " + id);
-  }
+    let nameUri = encodeURI(name);
+    console.log(nameUri);
+    fetch("https://ambserver.herokuapp.com/reflinks/" + nameUri, {
+      method: 'delete',
+      headers: {'Content-type': 'application/json'}
+    })
+    .then(data => {
+      console.log('Request success: ', data);
+      return fetch("https://ambserver.herokuapp.com/reflinks");
+    })
+    .then(response => response.json())
+    .then(data => {
+      const list = [];
+      data.forEach((d) => {
+        list.push({name: d.name, clickNum: d.clickNum, id: d._id});
+      });
+      console.log(list);
+      this.setState({
+        referralLinks: list
+      });
+    })
+    .catch(error => {
+      console.log('Request failure: ', error);
+    });
+}
+
 
   render() {
 
@@ -172,15 +224,15 @@ function List(props) {
           {props.referralLinks.map((link) => (
             <tr>
               <td>
-                <a key={link.id} href={"/" + link.name} onClick={() => props.handleLinkClick(link.id)}>{link.name}</a>
+                <a key={link.id} href={"/" + link.name} onClick={() => props.handleLinkClick(link.name)}>{link.name}</a>
               </td>
               <td>
-                {link.clicks}
+                {link.clickNum}
               </td>
-              <td onClick={() => props.editListItem(link.id)}>
+              <td onClick={() => props.editListItem(link.name)}>
                 Edit
               </td>
-              <td onClick={() => props.deleteListItem(link.id)}>
+              <td onClick={() => props.deleteListItem(link.name)}>
                 Delete
               </td>
             </tr>
@@ -197,7 +249,7 @@ function Landing(props) {
     <div>
       <h1>{props.currentName} is the best!</h1>
       <h2>Come join your fellow web-heads on the World Wide Web!</h2>
-      <img src="https://cdn.vox-cdn.com/thumbor/up9Mk1FY99BPcDxD9bA2YeRlKZE=/0x0:2640x1760/1200x800/filters:focal(1075x432:1497x854)/cdn.vox-cdn.com/uploads/chorus_image/image/65152362/spider.0.jpg" alt="spider-people" />
+      <img className="spdImg" src="./wwwSpiderMan.png" alt="spiderman hanging from world wide web" />
     </div>
   );
 }

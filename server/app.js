@@ -56,7 +56,7 @@ app.get("/", function(req, res) {
     res.send("Server is up and running");
 });
 
-//route for all refLinks
+//route for all entries
 app.route("/reflinks")
   //Read route - gets all db entries
   .get(function(req, res) {
@@ -129,7 +129,7 @@ app.route("/reflinks")
     .delete(function(req, res){
       RefLink.deleteOne(
         //conditions
-        {title: req.params.refLinkName},
+        {name: req.params.refLinkName},
         function(err){
           if (!err) {
             res.send("Successfully deleted entry.");
