@@ -3,6 +3,66 @@
 
 .table-wrapper {
   display: inline-block;
+  width: 75%;
+  border: 3px solid black;
+  text-align: left;
+}
+
+.btn {
+  font-size: 1rem;
+  border-radius: 25px;
+  background-color: rgb(232, 110, 208);
+  color: white;
+  border: 2px solid white;
+  margin-left: 1rem;
+  margin-right: 0.5rem;
+}
+
+.input-text {
+  width: 12rem;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.4rem 0;
+}
+
+.add-btn {
+  margin-left: 1rem;
+}
+
+.link {
+  width: 55%;
+}
+
+.clicks {
+  width: 15%;
+  text-align: center;
+}
+
+.edit {
+  width: 15%;
+  text-align: center;
+}
+
+.edit-btn {
+  background-color: green;
+  border: 3px solid green;
+  border-radius: 20px;
+  color: white;
+}
+
+.edit-btn-pressed {
+  background-color: red;
+  border-color: black;
+}
+
+.delete {
+  width: 15%;
+  text-align: center;
+}
+
+.delete:hover {
+  background-color: red;
+  color: white;
 }
 
 /* landing page */
