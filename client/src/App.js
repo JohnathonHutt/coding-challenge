@@ -222,30 +222,36 @@ class App extends React.Component {
   }
 
   render() {
-      if (this.state.renderHome) {
         return (
-          <Home
-            onSubmit={this.onSubmit}
-            term={this.state.term}
-            handleChange={this.handleChange}
-            referralLinks={this.state.referralLinks}
-            handleLinkClick={this.handleLinkClick}
-            editListItem={this.editListItem}
-            deleteLink={this.deleteLink}
-            editName={this.state.editName}
-            handleChangeLink={this.handleChangeLink}
-            nameTerm={this.state.nameTerm}
-            handleChangeClick={this.handleChangeClick}
-            clickTerm={this.state.clickTerm}
-          />
+          <Router>
+            <Switch>
+                <Route exact path="/">
+                  <Home
+                    onSubmit={this.onSubmit}
+                    term={this.state.term}
+                    handleChange={this.handleChange}
+                    referralLinks={this.state.referralLinks}
+                    handleLinkClick={this.handleLinkClick}
+                    editListItem={this.editListItem}
+                    deleteLink={this.deleteLink}
+                    editName={this.state.editName}
+                    handleChangeLink={this.handleChangeLink}
+                    nameTerm={this.state.nameTerm}
+                    handleChangeClick={this.handleChangeClick}
+                    clickTerm={this.state.clickTerm}
+                  />
+                </Route>
+                <Route path={"/" + this.state.currentName}>
+                  <Landing currentName={this.state.currentName} />
+                </Route>
+              </Switch>
+          </Router>
         );
       }
-      return (
-        <Landing currentName={this.state.currentName} />
-      );
-    }
   }
 //}
+
+// <Landing currentName={this.state.currentName} />
 
 function Home(props) {
   //Home page
@@ -279,7 +285,6 @@ function AddNew(props) {
 
 function List(props) {
   return (
-    <Router>
       <div className="table-wrapper">
         <table>
           <thead>
@@ -290,40 +295,52 @@ function List(props) {
               <td>Delete</td>
             </tr>
           </thead>
-          <tbody>
-            {props.referralLinks.map((link) => (
-              <tr>
-                <td className="link">
-                  {props.editName === link.name ? (
-                    <input type="text" value={props.nameTerm} onChange={props.handleChangeLink} />
-                  ) : (
-                    <Link key={link.id} to={"/" + link.name} onClick={() => props.handleLinkClick(link.name, link.clickNum)}>{link.name}</Link>
-                  )}
-                </td>
-                <td className="clicks">
-                  {props.editName === link.name ? (
-                    <input type="text" value={props.clickTerm} onChange={props.handleChangeClick} />
-                  ) : (
-                    link.clickNum
-                  )}
-                </td>
-                <td className="edit-btn">
-                  <div className="edit" onClick={() => props.editListItem(link.name, link.clickNum)}>Edit</div>
-                </td>
-                <td className="delete" onClick={() => props.deleteLink(link.name)}>
-                  Delete
-                </td>
-              </tr>
-            ))}
-          </tbody>
+          <TableLinks
+            referralLinks={props.referralLinks}
+            handleLinkClick={props.handleLinkClick}
+            editListItem={props.editListItem}
+            deleteLink={props.deleteLink}
+            editName={props.editName}
+            handleChangeLink={props.handleChangeLink}
+            nameTerm={props.nameTerm}
+            handleChangeClick={props.handleChangeClick}
+            clickTerm={props.clickTerm}
+          />
         </table>
       </div>
-    </Router>
   );
 }
 
-function Links(props) {
-  //break up List possibly
+function TableLinks(props) {
+  //diplays referralLinks
+  return (
+    <tbody>
+      {props.referralLinks.map((link) => (
+        <tr key={link.id}>
+          <td className="link">
+            {props.editName === link.name ? (
+              <input type="text" value={props.nameTerm} onChange={props.handleChangeLink} />
+            ) : (
+              <Link to={"/" + link.name} onClick={() => props.handleLinkClick(link.name, link.clickNum)}>{link.name}</Link>
+            )}
+          </td>
+          <td className="clicks">
+            {props.editName === link.name ? (
+              <input type="text" value={props.clickTerm} onChange={props.handleChangeClick} />
+            ) : (
+              link.clickNum
+            )}
+          </td>
+          <td className="edit-btn">
+            <div className="edit" onClick={() => props.editListItem(link.name, link.clickNum)}>Edit</div>
+          </td>
+          <td className="delete" onClick={() => props.deleteLink(link.name)}>
+            Delete
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  );
 }
 
 function Landing(props) {
@@ -339,47 +356,3 @@ function Landing(props) {
 
 
 export default App;
-
-// <Home
-//   onSubmit={this.onSubmit}
-//   term={this.state.term}
-//   handleChange={this.handleChange}
-//   referralLinks={this.state.referralLinks}
-//   handleLinkClick={this.handleLinkClick}
-//   editListItem={this.editListItem}
-//   deleteLink={this.deleteLink}
-//   editName={this.state.editName}
-//   handleChangeLink={this.handleChangeLink}
-//   nameTerm={this.state.nameTerm}
-//   handleChangeClick={this.handleChangeClick}
-//   clickTerm={this.state.clickTerm}
-// />
-// );
-// }
-// return (
-// <Landing currentName={this.state.currentName} />
-// );
-
-// <Router>
-//   <Switch>
-//     <Route exact path="/">
-//       <Home
-//         onSubmit={this.onSubmit}
-//         term={this.state.term}
-//         handleChange={this.handleChange}
-//         referralLinks={this.state.referralLinks}
-//         handleLinkClick={this.handleLinkClick}
-//         editListItem={this.editListItem}
-//         deleteLink={this.deleteLink}
-//         editName={this.state.editName}
-//         handleChangeLink={this.handleChangeLink}
-//         nameTerm={this.state.nameTerm}
-//         handleChangeClick={this.handleChangeClick}
-//         clickTerm={this.state.clickTerm}
-//       />
-//     </Route>
-//     <Route path={"/" + this.state.currentName}>
-//       <Landing currentName={this.state.currentName} />
-//     </Route>
-//   </Switch>
-// </Router>
