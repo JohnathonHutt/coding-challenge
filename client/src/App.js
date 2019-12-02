@@ -261,7 +261,7 @@ function Home(props) {
   //Home page
   return (
     <div className="home" >
-      <h1>Grow the web with referrals!</h1>
+      <h1 className="title">Grow the web with referrals!</h1>
       <AddNew onSubmit={props.onSubmit} term={props.term} handleChange={props.handleChange} />
       <List
         referralLinks={props.referralLinks}
@@ -282,10 +282,16 @@ function AddNew(props) {
   return (
     <form onSubmit={props.onSubmit}>
       <input className="input-text" value={props.term} onChange={props.handleChange} placeholder="Add a new link" />
-      <button className="add-btn">+</button>
+      <button className="add-btn"></button>
     </form>
   );
 }
+
+// <button className="wrap">
+//   <div className="icon" id="plus"></div>
+// </button>
+
+
 
 function List(props) {
   return (
@@ -354,22 +360,78 @@ function TableLinks(props) {
   );
 }
 
-// <label className="switch"  onClick={props.preventDefault}>
-//   <input type="checkbox" onClick={() => props.editListItem(link.name, link.clickNum)} />
-//   <span className="slider round"></span>
-// </label>
-
 function Landing(props) {
   //Landing page
   return (
     <div>
       <h1>{props.currentName} is the best!</h1>
-      <h2>Join your fellow web-heads on the World Wide Web!</h2>
+      <h2 className="sub-title">Join your fellow web-heads on the World Wide Web!</h2>
+      {/* wwwSpiderMan image by Johnathon Hutt */}
       <img className="spdImg" src="./wwwSpiderMan.png" alt="spiderman hanging from world wide web" />
+      <LandingLinks />
     </div>
   );
 }
 
+function LandingLinks(props) {
+  return (
+    <div className="row">
+      <div className="land-link-wrap">
+        <h3 className="card-title">Learn About the Web!</h3>
+        <ul>
+          <li>
+            <a className="link" href="https://webfoundation.org/about/vision/history-of-the-web/">Histroy of the Web</a>
+          </li>
+          <li>
+            <a className="link" href="https://webfoundation.org/about/sir-tim-berners-lee/">Sir Tim Berners-Lee (founder)</a>
+          </li>
+          <li>
+            <a className="link" href="https://www.w3.org/">World Wide Web Consortium</a>
+          </li>
+          <li>
+            <a className="link" href="https://www.nytimes.com/2019/11/24/opinion/world-wide-web.html">More from Tim Berners-Lee</a>
+          </li>
+        </ul>
+      </div>
+      <div className="land-link-wrap">
+        <h3 className="card-title">Learn On the Web!</h3>
+        <ul>
+          <li>
+            <a className="link" href="https://www.wikipedia.org/">Wikipedia: The Free Encycolopedia</a>
+          </li>
+          <li>
+            <a className="link" href="https://www.edx.org/">edX: Free and Affordable Education</a>
+          </li>
+          <li>
+            <a className="link" href="https://www.udemy.com/">Udemy: Affordable Online Education</a>
+          </li>
+          <li>
+            <a className="link" href="https://developer.mozilla.org/en-US/">MDN: Learn About Web Technologies</a>
+          </li>
+        </ul>
+      </div>
+      <div className="land-link-wrap">
+        <h3 className="card-title">Have Fun On the Web!</h3>
+        <div className="ul-wrapper">
+          <ul>
+            <li>
+              <a className="link" href="https://www.youtube.com/">YouTube: Watch and Share Videos</a>
+            </li>
+            <li>
+              <a className="link" href="https://www.reddit.com/">Reddit: The Front Page of The Internet</a>
+            </li>
+            <li>
+              <a className="link" href="https://medium.com/">Medium: Online Publishing</a>
+            </li>
+            <li>
+              <a className="link" href="https://twitter.com">Twitter: Short Form Conversations With the World</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default App;
 

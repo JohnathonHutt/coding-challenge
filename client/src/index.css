@@ -6,25 +6,12 @@ html {
 
 body {
   background-color: rgb(116, 179, 191);
+  color: white;
   font-family: 'Lato', sans-serif;
   margin: 0;
 }
 
-/* background-color: rgb(1, 254, 207); */
-
-h1 {
-  /* background-color: rgb(223,31, 45); */
-  color: white;
-  font-family: 'Open Sans', sans-serif;
-  margin-top: 0;
-  margin-bottom: 1rem;
-  padding-top: 1rem;
-  padding-bottom: 0.5rem;
-}
-
-
-/* table */
-
+/* table (home page) */
 table {
   width: 100%;
 }
@@ -41,14 +28,27 @@ th {
 }
 
 input {
+  color: white;
   background-color: rgba(255, 255, 255, 0.1);
   border-color: rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  color: white;
   font-size: 0.8rem;
   padding: 0.25rem 0 0.25rem 0.2rem;
   width: 100%;
 }
+
+
+/* landing page */
+ul {
+  display: inline-block;
+  text-align: left;
+}
+
+li {
+  font-size: 0.8rem;
+  padding: 0.2rem 0;
+}
+
 
 /* media queries */
 @media only screen and (max-width: 450px) {

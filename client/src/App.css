@@ -1,20 +1,16 @@
-
 /* home page */
 
-.table-wrapper {
-  background-color: rgb(68, 123, 190);
-  border-radius: 20px;
-  color: white;
-  display: inline-block;
-  padding: 0.5rem 0.5rem;
-  text-align: left;
-  width: 75%;
-  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+.title {
+  font-family: 'Open Sans', sans-serif;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 0.5rem;
 }
 
+/* add new link */
 .input-text {
   background-color: rgba(255, 255, 255, 0.2);
-  color: black;
   width: 12rem;
   font-size: 1rem;
   margin-bottom: 1rem;
@@ -22,17 +18,36 @@
 }
 
 .add-btn {
-  font-size: 1rem;
-  border-radius: 100%;
-  background-color: rgb(68, 123, 190);
   color: white;
-  border: 2px solid white;
-  margin-left: 1rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  background-color: rgb(68, 123, 190);
+  border: 2px solid rgb(68, 123, 190);
+  margin-left: 0.5rem;
   padding: 0.25rem 0.6rem;
+  height: 2rem;
+  -webkit-transition: color 0.5s; /* Safari prior 6.1 */
+  transition: color 0.5s;
 }
+
+.add-btn:before {
+    content: '\FF0B';
+  }
 
 .add-btn:hover {
   background-color: rgb(223,31, 45);
+  border-color: white;
+}
+
+/* link table */
+.table-wrapper {
+  background-color: rgb(68, 123, 190);
+  border-radius: 20px;
+  display: inline-block;
+  padding: 0.5rem 0.5rem;
+  text-align: left;
+  width: 75%;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
 }
 
 .spacer {
@@ -60,7 +75,6 @@
 }
 
 .delete {
-  color: white;
   -webkit-transition: color 0.5s; /* Safari prior 6.1 */
   transition: color 0.5s;
 }
@@ -70,7 +84,6 @@
 }
 
 /* edit switch */
-
 .switch {
   position: relative;
   display: inline-block;
@@ -117,20 +130,57 @@
 
 
 /* landing page */
+.sub-title {
+  font-family: 'Open Sans', sans-serif;
+  margin: 0 0 1rem 0;
+}
+
 .spdImg {
   height: 50vh;
 }
 
+.row {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
 
+.land-link-wrap {
+  background-color: rgb(68, 123, 190);
+  border-radius: 20px;
+  display: inline-block;
+  padding: 0.5rem 0.5rem;
+  text-align: center;
+  width: 65%;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  margin: 0.5rem 1.5%;
+}
+
+.card-title {
+  display: inline-block;
+  width: 80%;
+  border-bottom: 3px solid white;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0;
+}
+
+/* media breakpoints */
 @media only screen and (max-width: 600px) {
   .table-wrapper {
     width: 95%;
+  }
+  .land-link-wrap {
+    width: 80%;
   }
 }
 
 @media only screen and (min-width: 1000px) {
   .table-wrapper {
     width: 60%;
+  }
+  .land-link-wrap {
+    width: 28%;
   }
 }
 
