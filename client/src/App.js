@@ -108,6 +108,10 @@ class App extends React.Component {
     this.setState({clickTerm: event.target.value});
   }
 
+  preventDefault(event) {
+    event.preventDefault();
+  }
+
   handleLinkClick(name, clickNum) {
     //increment clickNum and change view to landing page
     //update state - pass link name and redirect to landing page
@@ -256,7 +260,7 @@ class App extends React.Component {
 function Home(props) {
   //Home page
   return (
-    <div>
+    <div className="home" >
       <h1>Grow the web with referrals!</h1>
       <AddNew onSubmit={props.onSubmit} term={props.term} handleChange={props.handleChange} />
       <List
@@ -277,8 +281,8 @@ function Home(props) {
 function AddNew(props) {
   return (
     <form onSubmit={props.onSubmit}>
-      <input className="input-text" value={props.term} onChange={props.handleChange} placeholder="  Add a new link" />
-      <button className="btn add-btn">+</button>
+      <input className="input-text" value={props.term} onChange={props.handleChange} placeholder="Add a new link" />
+      <button className="add-btn">+</button>
     </form>
   );
 }
@@ -289,10 +293,10 @@ function List(props) {
         <table>
           <thead>
             <tr>
-              <td>Link</td>
-              <td>Clicks</td>
-              <td>Edit</td>
-              <td>Delete</td>
+              <th>Link</th>
+              <th>Clicks</th>
+              <th>Edit</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <TableLinks
@@ -315,33 +319,45 @@ function TableLinks(props) {
   //diplays referralLinks
   return (
     <tbody>
+      <tr className="spacer">
+      </tr>
       {props.referralLinks.map((link) => (
         <tr key={link.id}>
-          <td className="link">
+          <td className="link-col">
             {props.editName === link.name ? (
               <input type="text" value={props.nameTerm} onChange={props.handleChangeLink} />
             ) : (
-              <Link to={"/" + link.name} onClick={() => props.handleLinkClick(link.name, link.clickNum)}>{link.name}</Link>
+              <Link className="link" to={"/" + link.name} onClick={() => props.handleLinkClick(link.name, link.clickNum)}>{link.name}</Link>
             )}
           </td>
-          <td className="clicks">
+          <td className="col">
             {props.editName === link.name ? (
               <input type="text" value={props.clickTerm} onChange={props.handleChangeClick} />
             ) : (
               link.clickNum
             )}
           </td>
-          <td className="edit-btn">
-            <div className="edit" onClick={() => props.editListItem(link.name, link.clickNum)}>Edit</div>
+          <td>
+            <div className="switch" onClick={() => props.editListItem(link.name, link.clickNum)}>
+              <div className={`outer-slider ${(props.editName === link.name) ? " outer-active" : ""}`}>
+                <div className={`inner-slider ${(props.editName === link.name) ? " inner-active" : ""}`}>
+                </div>
+              </div>
+            </div>
           </td>
-          <td className="delete" onClick={() => props.deleteLink(link.name)}>
-            Delete
+          <td className="col delete" onClick={() => props.deleteLink(link.name)}>
+            <span className="delete">Delete</span>
           </td>
         </tr>
       ))}
     </tbody>
   );
 }
+
+// <label className="switch"  onClick={props.preventDefault}>
+//   <input type="checkbox" onClick={() => props.editListItem(link.name, link.clickNum)} />
+//   <span className="slider round"></span>
+// </label>
 
 function Landing(props) {
   //Landing page
@@ -356,3 +372,5 @@ function Landing(props) {
 
 
 export default App;
+
+// <div className="edit" onClick={() => props.editListItem(link.name, link.clickNum)}>Edit</div>

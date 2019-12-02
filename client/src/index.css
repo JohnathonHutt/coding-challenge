@@ -1,17 +1,27 @@
-body {
+html {
+  font-size: calc(1em + 0.5vw);
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+body {
+  background-color: rgb(116, 179, 191);
+  font-family: 'Lato', sans-serif;
+  margin: 0;
 }
+
+/* background-color: rgb(1, 254, 207); */
+
+h1 {
+  /* background-color: rgb(223,31, 45); */
+  color: white;
+  font-family: 'Open Sans', sans-serif;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 0.5rem;
+}
+
 
 /* table */
 
@@ -19,15 +29,31 @@ table {
   width: 100%;
 }
 
-thead {
-  border-bottom: 3px solid black;
-  font-size: 1.5rem;
+table, th, td {
+  border-collapse: collapse;
+  padding: 0.3rem 1rem;
+  margin: 0;
 }
 
-td {
-  padding: 0.3rem 1rem;
+th {
+  border-bottom: 3px solid white;
+  padding-bottom: 0.5rem;
 }
 
 input {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  color: white;
+  font-size: 0.8rem;
+  padding: 0.25rem 0 0.25rem 0.2rem;
   width: 100%;
+}
+
+/* media queries */
+@media only screen and (max-width: 450px) {
+  td {
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+  }
 }
