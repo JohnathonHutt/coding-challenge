@@ -14,13 +14,13 @@ class App extends React.Component {
     super(props);
     this.state = {
       referralLinks: [],
-      renderHome: true,
       currentName: "",
       term: "",
       editName: "",   //current name being edited
       nameTerm: "",   //value in edit name input
       clickTerm: "",  //value in edit clickNum input
     };
+    this.sortByClicks = this.sortByClicks.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.handleLinkClick = this.handleLinkClick.bind(this);
@@ -28,6 +28,7 @@ class App extends React.Component {
     this.deleteLink = this.deleteLink.bind(this);
     this.handleChangeLink = this.handleChangeLink.bind(this);
     this.handleChangeClick = this.handleChangeClick.bind(this);
+    this.resetCurrentName = this.resetCurrentName.bind(this);
   }
 
   componentDidMount() {
@@ -41,8 +42,23 @@ class App extends React.Component {
         });
         console.log(list);
         this.setState({
-          referralLinks: list
+          referralLinks: this.sortByClicks(list)
         });
+    });
+  }
+
+  sortByClicks(referralLinks) {
+    //helper method - sorts referralLinks by clickNum property
+    return referralLinks.sort((a,b) => b.clickNum - a.clickNum);
+  }
+
+  resetCurrentName() {
+    //resets this.state.currentName from url in the event of a landing page reload
+    let decoded = decodeURI(window.location.href);
+    let splitUrl = decoded.split("/");
+    let currName = splitUrl[splitUrl.length - 1];
+    this.setState({
+      currentName: currName
     });
   }
 
@@ -79,7 +95,7 @@ class App extends React.Component {
           });
           console.log(list);
           this.setState({
-            referralLinks: list
+            referralLinks: this.sortByClicks(list)
           });
         })
         .catch(error => {
@@ -113,11 +129,9 @@ class App extends React.Component {
   }
 
   handleLinkClick(name, clickNum) {
-    //increment clickNum and change view to landing page
-    //update state - pass link name and redirect to landing page
+    //increment clickNum and pass currentName value for landing page
     this.setState({
       currentName: name,
-      renderHome: false,
     });
     //increment clickNum and sync w/ db
     let newClickNum = clickNum +=1;
@@ -143,7 +157,7 @@ class App extends React.Component {
       });
       console.log(list);
       this.setState({
-        referralLinks: list
+        referralLinks: this.sortByClicks(list)
       });
     })
     .catch(error => {
@@ -186,7 +200,7 @@ class App extends React.Component {
         });
         console.log(list);
         this.setState({
-          referralLinks: list,
+          referralLinks: this.sortByClicks(list),
           edit: false,
           editName: "",
         });
@@ -217,7 +231,7 @@ class App extends React.Component {
       });
       console.log(list);
       this.setState({
-        referralLinks: list
+        referralLinks: this.sortByClicks(list)
       });
     })
     .catch(error => {
@@ -246,7 +260,7 @@ class App extends React.Component {
                   />
                 </Route>
                 <Route path={"/" + this.state.currentName}>
-                  <Landing currentName={this.state.currentName} />
+                  <Landing currentName={this.state.currentName} resetCurrentName={this.resetCurrentName} />
                 </Route>
               </Switch>
           </Router>
@@ -279,6 +293,7 @@ function Home(props) {
 }
 
 function AddNew(props) {
+  //Home > AddNew
   return (
     <form onSubmit={props.onSubmit}>
       <input className="input-text" value={props.term} onChange={props.handleChange} placeholder="Add a new link" />
@@ -287,13 +302,8 @@ function AddNew(props) {
   );
 }
 
-// <button className="wrap">
-//   <div className="icon" id="plus"></div>
-// </button>
-
-
-
 function List(props) {
+  //Home > List
   return (
       <div className="table-wrapper">
         <table>
@@ -322,6 +332,7 @@ function List(props) {
 }
 
 function TableLinks(props) {
+  //Home > List > TableLinks
   //diplays referralLinks
   return (
     <tbody>
@@ -362,6 +373,10 @@ function TableLinks(props) {
 
 function Landing(props) {
   //Landing page
+  if (!props.currentName) {
+    //Resets currentName from url if currentName is blank (i.e. page reloads)
+    props.resetCurrentName();
+  }
   return (
     <div>
       <h1>{props.currentName} is the best!</h1>
@@ -374,10 +389,11 @@ function Landing(props) {
 }
 
 function LandingLinks(props) {
+  //Landing page > LandingLinks
   return (
     <div className="row">
       <div className="land-link-wrap">
-        <h3 className="card-title">Learn About the Web!</h3>
+        <h3 className="card-title">About the Web</h3>
         <ul>
           <li>
             <a className="link" href="https://webfoundation.org/about/vision/history-of-the-web/">Histroy of the Web</a>
@@ -389,12 +405,12 @@ function LandingLinks(props) {
             <a className="link" href="https://www.w3.org/">World Wide Web Consortium</a>
           </li>
           <li>
-            <a className="link" href="https://www.nytimes.com/2019/11/24/opinion/world-wide-web.html">More from Tim Berners-Lee</a>
+            <a className="link" href="https://en.wikipedia.org/wiki/World_Wide_Web">World Wide Web - Wikipedia</a>
           </li>
         </ul>
       </div>
       <div className="land-link-wrap">
-        <h3 className="card-title">Learn On the Web!</h3>
+        <h3 className="card-title">Learn On the Web</h3>
         <ul>
           <li>
             <a className="link" href="https://www.wikipedia.org/">Wikipedia: The Free Encycolopedia</a>
@@ -411,7 +427,7 @@ function LandingLinks(props) {
         </ul>
       </div>
       <div className="land-link-wrap">
-        <h3 className="card-title">Have Fun On the Web!</h3>
+        <h3 className="card-title">Fun On the Web</h3>
         <div className="ul-wrapper">
           <ul>
             <li>
