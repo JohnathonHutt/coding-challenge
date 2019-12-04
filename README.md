@@ -10,13 +10,13 @@
 
 **Description**
 
-This web-application provides an interface for tracking referral traffic to a landing page for the world wide web. It also consists of the backend API and database to store referral information.
+This web-application provides an interface for tracking referral links to a landing page for the world wide web. It also consists of the backend API and database to store referral information.
 
 The user interface consists two parts:
 
 A home page - found at <https://ambserver.herokuapp.com> - that displays referral links, has an input to add new links, and has functionality to edit and delete links. The number of "clicks" are set to a default value of 0 for newly generated links. Links are incremented by one with each click and can also be modified directly through the edit feature.
 
-Landing Page - the landing page may be accessed through any of the referral links found on the home page. The page contains the name from the referral link either via the react state or (in the event of a page refresh) the url (https://ambserver.herokuapp.com/{link_name}). Additionally, the page contains a series of links for exploring the world wide web and a world wide web spiderman image (drawn by me for this project) with accompanying spiderman puns and references.
+Landing Page - the landing page may be accessed through any of the referral links found on the home page. The page contains the name from the referral link either via the react state or (in the event of a page refresh) the url (https://ambserver.herokuapp.com/{link_name}). Additionally, the page contains a series of links for exploring the world wide web and a world wide web spiderman image (drawn by me for this project) that comes with spiderman puns and references.
 
 
 **Stack Choices**
