@@ -58,20 +58,20 @@
   width: 55%;
 }
 
+.col {
+  width: 15%;
+  text-align: center;
+}
+
 .link {
   color: white;
   text-decoration: none;
-  -webkit-transition: color 0.5s; /* Safari prior 6.1 */
+  -webkit-transition: color 0.5s;
   transition: color 0.5s;
 }
 
 .link:hover {
   color: rgb(253, 203, 10);
-}
-
-.col {
-  width: 15%;
-  text-align: center;
 }
 
 .delete {
@@ -140,13 +140,14 @@
 }
 
 .row {
+  /* flex wrapper for cards */
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
   margin: 0 1% 2rem 1%;
 }
 
-.land-link-wrap {
+.card {
   background-color: rgb(68, 123, 190);
   border-radius: 20px;
   display: inline-block;
@@ -170,7 +171,7 @@
   .table-wrapper {
     width: 95%;
   }
-  .land-link-wrap {
+  .card {
     width: 80%;
   }
 }
@@ -179,7 +180,7 @@
   .table-wrapper {
     width: 60%;
   }
-  .land-link-wrap {
+  .card {
     width: 28%;
   }
 }

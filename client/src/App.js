@@ -32,7 +32,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    //populate referralLinks from db
+    //populate referralLinks from db on mount
     fetch("https://ambserver.herokuapp.com/reflinks")
       .then(response => response.json())
       .then(data => {
@@ -53,7 +53,8 @@ class App extends React.Component {
   }
 
   resetCurrentName() {
-    //resets this.state.currentName from url in the event of a landing page reload
+    //resets this.state.currentName from url if empty (i.e. landing page reload)
+    //used in Landing component
     let decoded = decodeURI(window.location.href);
     let splitUrl = decoded.split("/");
     let currName = splitUrl[splitUrl.length - 1];
@@ -63,7 +64,7 @@ class App extends React.Component {
   }
 
   onSubmit(event) {
-    //Add new link - update db - sync w/ this.state
+    //Add new link - update db - sync referralLinks
     event.preventDefault();
     //if name is not an empty string
     if (this.state.term) {
@@ -111,21 +112,23 @@ class App extends React.Component {
 
   handleChange(event) {
     //handle change for add link input
+    console.log(event.target);
+    console.log(event.target.value);
    this.setState({term: event.target.value});
   }
 
   handleChangeLink(event) {
-    //handle change for edit link input
+    //handle change for edit link-name input
+    console.log(event.target);
+    console.log(event.target.value);
     this.setState({nameTerm: event.target.value});
   }
 
   handleChangeClick(event) {
-    //handle change for edit clickNum input
+    //handle change for edit link-clickNum input
+    console.log(event.target);
+    console.log(event.target.value);
     this.setState({clickTerm: event.target.value});
-  }
-
-  preventDefault(event) {
-    event.preventDefault();
   }
 
   handleLinkClick(name, clickNum) {
@@ -166,7 +169,7 @@ class App extends React.Component {
   }
 
   editListItem(name, clickNum) {
-    //turns on edit fields or turns off/saves edits
+    //turns "on" edit input fields or turns off/saves edits
     //turn on edit fields
     if (!this.state.editName) {
       this.setState({
@@ -240,41 +243,39 @@ class App extends React.Component {
   }
 
   render() {
-        return (
-          <Router>
-            <Switch>
-                <Route exact path="/">
-                  <Home
-                    onSubmit={this.onSubmit}
-                    term={this.state.term}
-                    handleChange={this.handleChange}
-                    referralLinks={this.state.referralLinks}
-                    handleLinkClick={this.handleLinkClick}
-                    editListItem={this.editListItem}
-                    deleteLink={this.deleteLink}
-                    editName={this.state.editName}
-                    handleChangeLink={this.handleChangeLink}
-                    nameTerm={this.state.nameTerm}
-                    handleChangeClick={this.handleChangeClick}
-                    clickTerm={this.state.clickTerm}
-                  />
-                </Route>
-                <Route path={"/" + this.state.currentName}>
-                  <Landing currentName={this.state.currentName} resetCurrentName={this.resetCurrentName} />
-                </Route>
-              </Switch>
-          </Router>
-        );
-      }
+    //Site routes
+    return (
+      <Router>
+          <Switch>
+            <Route exact path="/">
+              <Home
+                onSubmit={this.onSubmit}
+                term={this.state.term}
+                handleChange={this.handleChange}
+                referralLinks={this.state.referralLinks}
+                handleLinkClick={this.handleLinkClick}
+                editListItem={this.editListItem}
+                deleteLink={this.deleteLink}
+                editName={this.state.editName}
+                handleChangeLink={this.handleChangeLink}
+                nameTerm={this.state.nameTerm}
+                handleChangeClick={this.handleChangeClick}
+                clickTerm={this.state.clickTerm}
+              />
+              </Route>
+              <Route path={"/" + this.state.currentName}>
+                <Landing currentName={this.state.currentName} resetCurrentName={this.resetCurrentName} />
+              </Route>
+            </Switch>
+        </Router>
+      );
+    }
   }
-//}
-
-// <Landing currentName={this.state.currentName} />
 
 function Home(props) {
   //Home page
   return (
-    <div className="home" >
+    <div>
       <h1 className="title">Grow the web with referrals!</h1>
       <AddNew onSubmit={props.onSubmit} term={props.term} handleChange={props.handleChange} />
       <List
@@ -392,7 +393,7 @@ function LandingLinks(props) {
   //Landing page > LandingLinks
   return (
     <div className="row">
-      <div className="land-link-wrap">
+      <div className="card">
         <h3 className="card-title">About the Web</h3>
         <ul>
           <li>
@@ -409,7 +410,7 @@ function LandingLinks(props) {
           </li>
         </ul>
       </div>
-      <div className="land-link-wrap">
+      <div className="card">
         <h3 className="card-title">Learn On the Web</h3>
         <ul>
           <li>
@@ -426,29 +427,25 @@ function LandingLinks(props) {
           </li>
         </ul>
       </div>
-      <div className="land-link-wrap">
+      <div className="card">
         <h3 className="card-title">Fun On the Web</h3>
-        <div className="ul-wrapper">
-          <ul>
-            <li>
-              <a className="link" href="https://www.youtube.com/">YouTube: Watch and Share Videos</a>
-            </li>
-            <li>
-              <a className="link" href="https://www.reddit.com/">Reddit: The Front Page of The Internet</a>
-            </li>
-            <li>
-              <a className="link" href="https://medium.com/">Medium: Online Publishing</a>
-            </li>
-            <li>
-              <a className="link" href="https://twitter.com">Twitter: Short Form Conversations With the World</a>
-            </li>
-          </ul>
-        </div>
+        <ul>
+          <li>
+            <a className="link" href="https://www.youtube.com/">YouTube: Watch and Share Videos</a>
+          </li>
+          <li>
+            <a className="link" href="https://www.reddit.com/">Reddit: The Front Page of The Internet</a>
+          </li>
+          <li>
+            <a className="link" href="https://medium.com/">Medium: Online Publishing</a>
+          </li>
+          <li>
+            <a className="link" href="https://twitter.com">Twitter: Short Form Conversations With the World</a>
+          </li>
+        </ul>
       </div>
     </div>
   );
 }
 
 export default App;
-
-// <div className="edit" onClick={() => props.editListItem(link.name, link.clickNum)}>Edit</div>
